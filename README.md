@@ -94,7 +94,7 @@ This will test both automated testcases and show the result.
 
 ## Footnote
 
-This project is built as part of a coding requirent provided by Inpsyde GMBH to test the wordpress skills of the job applicant.
+This project is built as part of a coding requirent provided by Inpsyde GmbH to test the wordpress skills of the job applicant.
 
 Following APIs are used to fetch and display data -  
 1. https://jsonplaceholder.typicode.com/users to display list of users
