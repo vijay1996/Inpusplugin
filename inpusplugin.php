@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name:       Inpus Plugin
- * Plugin URI:        https://www.wrapyourbook.com
- * Description:       Will show youtube subscribers
+ * Plugin URI:        https://github.com/vijay1996/Inpusplugin
+ * Description:       A plugin to fetch user details
  * Version:           1.0.0
  * Author:            Vijaybhoj Raj C M
- * Author URI:        https://wrapyourbook.com
+ * Author URI:        https://github.com/vijay1996
  */
 
  // to block entry by directly entering the url of the plugin.
@@ -20,13 +20,6 @@ require_once (plugin_dir_path(__FILE__).'/includes/InpusScript.php');
 // to fetch the class from includes to the main plugin file.
 require_once (plugin_dir_path(__FILE__).'/includes/InpusClass.php');
 
-//register the plugin.
-
-/*
-function register_inpus() {
-    register_widget('Inpus_widget');
-}
-add_action('widgets_init', 'register_inpus');
-*/
+//register the plugin and add stylesheet and script to the main wordpress page.
 new \includes\EnqueueStyleScript();
 new \includes\RegisterWidget();
