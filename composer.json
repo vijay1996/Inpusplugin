@@ -1,0 +1,12 @@
+{
+  "name": "inpus/plugin",
+  "description": "Lists out the dependencies used for testing the wordpress plugin - Inpus plugin",
+  "require-dev": {
+    "phpunit/phpunit": "^7",
+    "brain/monkey": "~2.0.0"
+  },
+  "scripts": {
+    "test-unit": "phpunit test/test-inpusplugin.php",
+    "test-integration": "\"vendor/bin/phpunit\" --testsuite integration --configuration tests/phpunit/integration/phpunit.xml.dist --color=always"
+  }
+}

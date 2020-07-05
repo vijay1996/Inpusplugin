@@ -1,6 +1,6 @@
 <?php
 /**
- * Adds Foo_Widget widget.
+ * Inpus_Widget widget.
  * 
  */
 class Inpus_Widget extends WP_Widget {
