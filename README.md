@@ -15,7 +15,7 @@ As its core logic, the plugin presents an endpoint which is the only means to ac
  On, clicking this endpoint, a call is made to a REST api (https://jsonplaceholder.typicode.com/users) that responds with a user list in JSON format.
 
  The plugin processes this response and displays the following user details -  
-- User ID, 
+- User ID 
 - Name of the user  
 - username in a table format. 
  
