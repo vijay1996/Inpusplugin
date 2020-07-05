@@ -83,6 +83,7 @@ The test scripts make use of the following dependencies -
 
 To install these dependencies Composer has to be installed in the system. A simple Composer command has to be run in order to install the above dependencies.
 ```
+$ cd Inpusplugin
 $ composer install
 ```
 Once the dependencies are installed, to execute the test cases the following command has to be run.
