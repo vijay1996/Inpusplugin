@@ -1,4 +1,36 @@
 /*
+    DEVELOPER REFERENCE
+   *********************
+
+    Breakdown of logic.
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+    Click events (These are valid from start to the end of window lifecycle) -  
+
+    1. dropdown.onclick - 
+       a. As soon as the dropdown button is clicked, dropdownClicked() function is called to display table with user list.
+    2. dropdownClicked also provides a click option. Each item displayed in the table are clickable divs and they have the following click option - 
+       a. onclick = fetchUser() - To display the details of the clicked user.
+    3. back.onClick - Click event that calls navigateBack() to navigate to the previous screen.
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+    
+    Functions
+
+    1. dropdownClicked(dropdown, display1, back)
+       a. Takes in three DOM parameters - dropdown, display1 and back.
+       b. Checks if the id of next user is present in the local storage. If not, 1 is set as the next user_id.
+       c. Request is made to the user api to fetch the user with next user id.
+       d. If the request is successful, this means a new user has been added and the user list present in the local storage has to be refreshed.
+       e. If the request responds with 404, the list from local storage can be displayed, skipping the api call to fetch all users.
+       f. Using data from api call or from the local storage, displayFirst() function is called to display fetched data.
+    2. displayFirst(data, dropdown, back, display1)
+       a. this performs basic DOM operations to hide the dropdown button, display the next button and to write the data into the widget's div tag.
+    3. fetchUser(i) 
+       a. This function fetches individual user data from the api and calls the displaySecond() function.
+    4. displaySecond() - 
+       a. This function displays the data fetched in the previous function.
+    5. navigateBack() - 
+       a. Performs dom operation to display the previous screen.
+-------------------------------------------------------------------------------------------------------------------------------------------------------
 
 */
 
@@ -9,54 +41,41 @@ window.onload = function() {
     let back = document.getElementById('inpus-back');
 
     
-    dropdown.onclick = function () {
-        let return_value = false;
-        let last_id = sessionStorage.getItem('InpusLastID');
-        if (last_id == null) {
-            last_id = 1;
-        } else {
-            last_id = Number(last_id);
-        }
-        let uri = "https://jsonplaceholder.typicode.com/users/" + last_id;
-        fetch(uri).then(res=> {
-            if (res.status != 404) {
-                let xhttp = new XMLHttpRequest();
-                xhttp.onreadystatechange = function () {
-                    if(this.readyState == 4 && this.status == 200) {
-                        displayFirst(JSON.parse(this.responseText), dropdown, back, display1);
-                        sessionStorage.setItem('InpusLastID', String(data.length + 1));
-                        data = JSON.stringify(data);
-                        sessionStorage.setItem('InpusUserList', data);
-                    }
-                }
-                xhttp.open("GET", "https://jsonplaceholder.typicode.com/users", true);
-                xhttp.send();
-            } else {
-                displayFirst(JSON.parse(sessionStorage.getItem('InpusUserList')), dropdown, back, display1);
-                   
-            }
-        });
-    }
-
+    dropdown.onclick = ()=>dropdownClicked(dropdown, display1, back);
     back.onclick = ()=>navigateBack(dropdown, display1, display2, back); 
-
-        
+     
 }
 
 
 
-function fetch_user(i) {
-    let xhttp = new XMLHttpRequest();
-
-    xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            data = displaySecond(JSON.parse(this.responseText));
-        }
+function dropdownClicked (dropdown, display1, back) {
+    let next_id = sessionStorage.getItem('InpusLastID');
+    if (next_id == null) {
+        next_id = 1;
+    } else {
+        next_id = Number(next_id);
     }
-
-    xhttp.open("GET", "https://jsonplaceholder.typicode.com/users/" + i, true);
-    xhttp.send();
+    let uri = "https://jsonplaceholder.typicode.com/users/" + next_id;
+    fetch(uri).then(res=> {
+        if (res.status != 404) {
+            let xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if(this.readyState == 4 && this.status == 200) {
+                    displayFirst(JSON.parse(this.responseText), dropdown, back, display1);
+                    sessionStorage.setItem('InpusLastID', String(data.length + 1));
+                    data = JSON.stringify(data);
+                    sessionStorage.setItem('InpusUserList', data);
+                }
+            }
+            xhttp.open("GET", "https://jsonplaceholder.typicode.com/users", true);
+            xhttp.send();
+        } else {
+            displayFirst(JSON.parse(sessionStorage.getItem('InpusUserList')), dropdown, back, display1);
+               
+        }
+    });
 }
+
 
 
 
@@ -68,8 +87,23 @@ function displayFirst(data, dropdown, back, display1) {
     back.style.display = "block";
 
     for (let i = 0; i < data.length; i++) {
-        display1.innerHTML += ("<div onclick='fetch_user(" + data[i].id + ")' class='align-vertical-center inpus-item inpus-item-first'>" + data[i].id + "</div><div onclick='fetch_user(" + data[i].id + ")' class='inpus-item inpus-item-first'>" + data[i].name + "</div><div onclick='fetch_user(" + data[i].id + ")'  class='inpus-item'>" + data[i].username + "</div>");
+        display1.innerHTML += ("<div onclick='fetchUser(" + data[i].id + ")' class='align-vertical-center inpus-item inpus-item-first'>" + data[i].id + "</div><div onclick='fetchUser(" + data[i].id + ")' class='inpus-item inpus-item-first'>" + data[i].name + "</div><div onclick='fetchUser(" + data[i].id + ")'  class='inpus-item'>" + data[i].username + "</div>");
     }
+}
+
+
+
+function fetchUser(i) {
+    let xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            data = displaySecond(JSON.parse(this.responseText));
+        }
+    }
+
+    xhttp.open("GET", "https://jsonplaceholder.typicode.com/users/" + i, true);
+    xhttp.send();
 }
 
 
@@ -97,7 +131,6 @@ function displaySecond(data) {
 
 
 function navigateBack (dropdown, display1, display2, back) {
-    console.log("Hi I am here");
     if (display1.style.display === "grid") {
         display1.style.display = "none";
         back.style.display = "none";
