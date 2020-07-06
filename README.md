@@ -1,6 +1,7 @@
 # Inpus Plugin
 ## Description
-This is a simple Wordpress plugin written to demonstrate familiarity in wordpress plugin development. Code level detailed explaination of logic is provided at js/main.js which contains the business logic.
+This is a simple Wordpress plugin written to demonstrate familiarity in wordpress plugin development.  
+Code level detailed explaination of business logic is provided at js/main.js.
 
 This plugin is developed using the following technologies -
 
