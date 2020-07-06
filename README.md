@@ -1,6 +1,6 @@
 # Inpus Plugin
 ## Description
-This is a simple Wordpress plugin written to demonstrate familiarity in wordpress plugin development.
+This is a simple Wordpress plugin written to demonstrate familiarity in wordpress plugin development. Code level detailed explaination of logic is provided at js/main.js which contains the business logic.
 
 This plugin is developed using the following technologies -
 
@@ -64,7 +64,7 @@ You can click the button to get a list of user. The list of users will be listed
 
 ![user-list](docs/UserList.png)
 
-Like mentioned in the description, The items listed in the above tables are clickable. User can click the back button to move to the previous display. On clicking any of the items in the above table another table will be displayed with the details of the selected user in a format shown below - 
+Like mentioned in the description, The items listed in the above tables are clickable. User can click the back button to move to the previous display. User can also click the reload data link to reload the list data and also the page. On clicking any of the items in the above table another table will be displayed with the details of the selected user in a format shown below - 
 
 ![user-details](docs/UserDetails.png)
 

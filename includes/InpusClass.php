@@ -33,6 +33,7 @@ class Inpus_Widget extends WP_Widget {
 		    <div class='inpus-main'>
 				<button id='inpus-dropdown'>Click here to get a list of users</button>
 				<button id='inpus-back'>Back</button>
+				<a id='inpus-reload-list'>Reload Data (will reload this page)</a>
 				<div id='inpus-display-1'></div>
 				<div id='inpus-display-2'></div>
 			</div>

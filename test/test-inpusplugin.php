@@ -1,4 +1,7 @@
 <?php
+/*
+    This file contains the two test cases that checks if two hooks used to add this widget to wordpress actually functions properly.
+*/
 namespace test;
 require 'TestTemplate.php';
 require 'includes/InpusScript.php';
