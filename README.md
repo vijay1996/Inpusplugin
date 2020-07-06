@@ -71,6 +71,10 @@ Like mentioned in the description, The items listed in the above tables are clic
 
 The user again has the option to navigate to the previous display by pressing the back buton.
 
+## Caching
+The plugin uses local storage to cache list of users returned when the first "CLICK HERE TO GET A LIST OF USERS" button is pressed. The caching logic is applied here because, on pressing this button the details displayed are the user id, name of the user and the user name. These details hardly change as opposed to the user details that change quite often. So it is a good idea to cache these details.
+Even so, if required, an option to clear the local storage and reload the entire page is provided as "Reload Data link".
+
 ## Unit Testing
 
 The plugin comes with two automated test cases -
