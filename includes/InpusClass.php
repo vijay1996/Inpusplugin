@@ -30,13 +30,12 @@ class Inpus_Widget extends WP_Widget {
 			echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title'];
 		}
 		echo "
-		    <div class='inpus-main'>
-				<button id='inpus-dropdown'>Click here to get a list of users</button>
-				<button id='inpus-back'>Back</button>
-				<a id='inpus-reload-list'>Reload Data (will reload this page)</a>
-				<div id='inpus-display-1'></div>
-				<div id='inpus-display-2'></div>
-			</div>
+			<input type='text' id='minisearch' placeholder='Search for a user' />
+			<div id='miniSuggestions'></div>
+			<br>
+			<div id='inpus-display-2'></div>
+			<br>
+		    <a href='/wp-content/plugins/Inpusplugin/html/index.php'>Click to get full list of users</a>
 		";
 		echo $args['after_widget'];
 	}

@@ -46,21 +46,39 @@
 */
 
 window.onload = function() {
-    let dropdown = document.getElementById('inpus-dropdown');
     let display1 = document.getElementById('inpus-display-1');
     let display2 = document.getElementById('inpus-display-2');
     let back = document.getElementById('inpus-back');
     let reloadButton = document.getElementById('inpus-reload-list');
+    let minisearch = document.getElementById('minisearch');
+
+    loadData(display1, back);
+    if (minisearch != null){
+        setInterval(()=>{
+            let prevKey = sessionStorage.getItem("InpusMiniKeyword");
+            if (minisearch.value == '') {
+                miniDiv = document.getElementById('miniSuggestions');
+                miniDiv.innerHTML = "";
+                display2.style.display = "none";
+            }
+            if (minisearch.value != prevKey && minisearch.value != '') {
+                getMiniSuggestions(minisearch.value);
+                sessionStorage.setItem("InpusMiniKeyword", minisearch.value);
+            }
+        }, 100);
+    }
     
-    dropdown.onclick = ()=>dropdownClicked(dropdown, display1, back);
-    back.onclick = ()=>navigateBack(dropdown, display1, display2, back); 
-    reloadButton.onclick = ()=>reloadData();
-     
+    if (back != null) {
+        back.onclick = ()=>navigateBack(display1, display2, back); 
+    }
+    if (reloadButton != null) {
+        reloadButton.onclick = ()=>reloadData();
+    }
 }
 
 
 
-function dropdownClicked (dropdown, display1, back) {
+function loadData (display1) {
     let next_id = sessionStorage.getItem('InpusLastID');
     if (next_id == null) {
         next_id = 1;
@@ -74,7 +92,7 @@ function dropdownClicked (dropdown, display1, back) {
             xhttp.onreadystatechange = function () {
                 if(this.readyState == 4 && this.status == 200) {
                     let data = JSON.parse(this.responseText);
-                    displayFirst(data, dropdown, back, display1);
+                    displayFirst(data, display1);
                     sessionStorage.setItem('InpusLastID', String(data.length + 1));
                     data = JSON.stringify(data);
                     sessionStorage.setItem('InpusUserList', data);
@@ -83,7 +101,7 @@ function dropdownClicked (dropdown, display1, back) {
             xhttp.open("GET", "https://jsonplaceholder.typicode.com/users", true);
             xhttp.send();
         } else {
-            displayFirst(JSON.parse(sessionStorage.getItem('InpusUserList')), dropdown, back, display1);
+            displayFirst(JSON.parse(sessionStorage.getItem('InpusUserList')), display1);
                
         }
     });
@@ -92,18 +110,19 @@ function dropdownClicked (dropdown, display1, back) {
 
 
 
-function displayFirst(data, dropdown, back, display1) {
+function displayFirst(data, display1) {
     let reloadButton = document.getElementById('inpus-reload-list');
+    if (reloadButton != null) {
+        reloadButton.style.display = "block";
+    }
+    if (display1 != null) {
+        display1.style.display = "grid";
+        display1.style.gridTemplateColumns = "1fr 3fr 3fr 3fr 3fr";
+        display1.innerHTML = "<div class='align-vertical-center inpus-head inpus-item-first'>ID</div><div class='inpus-head inpus-item-first'>Name</div><div class='inpus-head'>Username</div><div class='inpus-head'>Email</div><div class='inpus-head'>Phone</div>";
 
-    reloadButton.style.display = "block";
-    display1.style.display = "grid";
-    display1.style.gridTemplateColumns = "1fr 3fr 3fr";
-    display1.innerHTML = "<div class='align-vertical-center inpus-head inpus-item-first'>ID</div><div class='inpus-head inpus-item-first'>Name</div><div class='inpus-head'>Username</div>";
-    dropdown.style.display = "none";
-    back.style.display = "block";
-
-    for (let i = 0; i < data.length; i++) {
-        display1.innerHTML += ("<div onclick='fetchUser(" + data[i].id + ")' class='align-vertical-center inpus-item inpus-item-first'>" + data[i].id + "</div><div onclick='fetchUser(" + data[i].id + ")' class='inpus-item inpus-item-first'>" + data[i].name + "</div><div onclick='fetchUser(" + data[i].id + ")'  class='inpus-item'>" + data[i].username + "</div>");
+        for (let i = 0; i < data.length; i++) {
+            display1.innerHTML += ("<div onclick='fetchUser(" + data[i].id + ")' class='align-vertical-center inpus-item inpus-item-first'>" + data[i].id + "</div><div onclick='fetchUser(" + data[i].id + ")' class='inpus-item inpus-item-first'>" + data[i].name + "</div><div onclick='fetchUser(" + data[i].id + ")'  class='inpus-item inpus-item-first'>" + data[i].username + "</div><div onclick='fetchUser(" + data[i].id + ")'  class='inpus-item inpus-item-first'>" + data[i].email + "</div><div onclick='fetchUser(" + data[i].id + ")'  class='inpus-item inpus-item-first'>" + data[i].phone  + "</div>");
+        }
     }
 }
 
@@ -128,9 +147,17 @@ function displaySecond(data) {
     let display1 = document.getElementById('inpus-display-1');
     let display2 = document.getElementById('inpus-display-2');
     let reloadButton = document.getElementById('inpus-reload-list');
-
-    display1.style.display = "none";
-    reloadButton.style.display = "none";
+    let back = document.getElementById('inpus-back');
+    let miniSuggestions = document.getElementById('miniSuggestions');
+    if (display1 != null) {
+        display1.style.display = "none";
+        reloadButton.style.display = "none";
+        back.style.display = "block";
+    } 
+    if (display1 === null) {
+        display2.style.width = "100%";
+        miniSuggestions.innerHTML = "";
+    }
     display2.style.display = "grid";
     display2.style.gridTemplateColumns = "auto auto";
 
@@ -148,19 +175,12 @@ function displaySecond(data) {
 
 
 
-function navigateBack (dropdown, display1, display2, back) {
+function navigateBack (display1, display2, back) {
     let reloadButton = document.getElementById('inpus-reload-list');
-
-    if (display1.style.display === "grid") {
-        display1.style.display = "none";
-        reloadButton.style.display = "none";
-        back.style.display = "none";
-        dropdown.style.display = "block";
-    } else if (display2.style.display === "grid") {
-        display2.style.display = "none";
-        display1.style.display = "grid";
-        reloadButton.style.display = "block";
-    }
+    display2.style.display = "none";
+    display1.style.display = "grid";
+    back.style.display = "none";
+    reloadButton.style.display = "block";
 }
 
 
@@ -168,4 +188,107 @@ function reloadData() {
     sessionStorage.removeItem('InpusLastID');
     sessionStorage.removeItem('InpusUserList');
     location.reload();
+}
+
+function getMiniSuggestions(keyword) {
+    let data = JSON.parse(sessionStorage.getItem('InpusUserList'));
+    let suggestionArray = searchDataForKeyword(data,keyword);
+    miniDiv = document.getElementById('miniSuggestions');
+    miniDiv.innerHTML = '';
+    for(let i = 0; i < 5; i ++) {
+        if (suggestionArray[i] != null) {
+            miniDiv.innerHTML += ('<div class="minisearchItem" onclick = fetchUser('+ suggestionArray[i].id +')>' + suggestionArray[i].value + '</div>');
+        }
+    }
+}
+
+function searchDataForKeyword(data,keyword) {
+    let suggestionArray = [];
+    for (let i = 0; i < data.length; i++) {
+        if (data[i].name.toLowerCase().includes(keyword.toLowerCase())) {
+            let suggestionObject = {
+                "id": data[i].id,
+                "value": data[i].name
+            }
+            suggestionArray.push(suggestionObject);
+        }
+        if (data[i].username.toLowerCase().includes(keyword.toLowerCase())) {
+            let suggestionObject = {
+                "id": data[i].id,
+                "value": data[i].username
+            }
+            suggestionArray.push(suggestionObject);
+        }
+        if (data[i].email.toLowerCase().includes(keyword.toLowerCase())) {
+            let suggestionObject = {
+                "id": data[i].id,
+                "value": data[i].email
+            }
+            suggestionArray.push(suggestionObject);
+        }
+        if (data[i].address.street.toLowerCase().includes(keyword.toLowerCase())) {
+            let suggestionObject = {
+                "id": data[i].id,
+                "value": data[i].address.street
+            }
+            suggestionArray.push(suggestionObject);
+        }
+        if (data[i].address.suite.toLowerCase().includes(keyword.toLowerCase())) {
+            let suggestionObject = {
+                "id": data[i].id,
+                "value": data[i].address.suite
+            }
+            suggestionArray.push(suggestionObject);
+        }
+        if (data[i].address.city.toLowerCase().includes(keyword.toLowerCase())) {
+            let suggestionObject = {
+                "id": data[i].id,
+                "value": data[i].address.city
+            }
+            suggestionArray.push(suggestionObject);
+        }
+        if (data[i].address.zipcode.toLowerCase().includes(keyword.toLowerCase())) {
+            let suggestionObject = {
+                "id": data[i].id,
+                "value": data[i].address.zipcode
+            }
+            suggestionArray.push(suggestionObject);
+        }
+        if (data[i].phone.toLowerCase().includes(keyword.toLowerCase())) {
+            let suggestionObject = {
+                "id": data[i].id,
+                "value": data[i].phone
+            }
+            suggestionArray.push(suggestionObject);
+        }
+        if (data[i].website.toLowerCase().includes(keyword.toLowerCase())) {
+            let suggestionObject = {
+                "id": data[i].id,
+                "value": data[i].website
+            }
+            suggestionArray.push(suggestionObject);
+        }
+        if (data[i].company.name.toLowerCase().includes(keyword.toLowerCase())) {
+            let suggestionObject = {
+                "id": data[i].id,
+                "value": data[i].company.name
+            }
+            suggestionArray.push(suggestionObject);
+        }
+        if (data[i].company.catchPhrase.toLowerCase().includes(keyword.toLowerCase())) {
+            let suggestionObject = {
+                "id": data[i].id,
+                "value": data[i].company.catchPhrase
+            }
+            suggestionArray.push(suggestionObject);
+        }
+        if (data[i].company.bs.toLowerCase().includes(keyword.toLowerCase())) {
+            let suggestionObject = {
+                "id": data[i].id,
+                "value": data[i].company.bs
+            }
+            suggestionArray.push(suggestionObject);
+        }
+    }
+    return suggestionArray;
 }
