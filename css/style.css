@@ -13,6 +13,11 @@
     color: #021935;
 }
 
+#heading a {
+    text-decoration: none;
+    color: #021935;
+}
+
 #tagline {
     font-size: 200%;
     color: #EDF5E1;
@@ -32,6 +37,10 @@
     text-align: center;
 }
 
+#inpus-display-1 {
+    width: 90%;
+}
+
 #inpus-display-2 {
     width: 50%;
 
@@ -44,14 +53,15 @@
 }
 
 #inpus-back {
+    margin-top: 1%;
     margin-bottom: 1%;
-    margin-top: 2%;
     padding: 1%;
     padding-left: 3%;
     padding-right: 3%;
     border: none;
     background-color: #021935;
     color: #EDF5E1;
+    cursor: pointer;
 }
 
 .inpus-head {
@@ -95,8 +105,20 @@
 
 #inpus-reload-list {
     cursor: pointer;
-    margin-bottom: 1%;
     text-align: right;
+    margin: auto;
+    padding: 1%;
+    padding-left: 2%;
+    padding-right: 2%;
+    width: 10%;
+}
+
+#inpus-reload-list button {
+    padding: 10%;
+    border: none;
+    background-color: #021935;
+    color: #EDF5E1;
+    cursor: pointer;
 }
 
 #miniSuggestions {
@@ -111,3 +133,4 @@
     border: 1px solid #02193511;
     cursor: pointer;
 }
+

@@ -1,46 +1,44 @@
 /*
     DEVELOPER REFERENCE
    *********************
-
-    Breakdown of logic.
--------------------------------------------------------------------------------------------------------------------------------------------------------
-    Click events (These are valid from start to the end of window lifecycle) -  
-
-    1. dropdown.onclick - 
-       a. As soon as the dropdown button is clicked, dropdownClicked() function is called to display table with user list.
-    2. dropdownClicked also provides a click option. Each item displayed in the table are clickable divs and they have the 
-       following click option - 
-       a. onclick = fetchUser() - To display the details of the clicked user.
-    3. back.onclick - Click event that calls navigateBack() to navigate to the previous screen.
-    4. reloadButton.onclick - deletes local storage and reloads the page.
--------------------------------------------------------------------------------------------------------------------------------------------------------
     
     Functions
 
-    1. dropdownClicked(dropdown, display1, back)
-       a. Takes in three DOM parameters - dropdown, display1 and back.
+    1. loadData(display1)
+       a. Takes in three DOM parameters - display1.
        b. Checks if the id of next user is present in the local storage. If not, 1 is set as the next user_id.
        c. Request is made to the user api to fetch the user with next user id.
        d. If the request is successful, this means a new user has been added and the user list present in 
           the local storage has to be refreshed.
        e. If the request responds with 404, the list from local storage can be displayed, skipping the api 
           call to fetch all users.
-       f. Caching method is used for this data because this step displays username, name of the user and user id. 
+       f. Caching method is used for this data because this step displays username, name of the user, user id, user email and phone number. 
           This data hardly changes. But if it still changes, reload option is provided
        g. Using data from api call or from the local storage, displayFirst() function is called to display fetched data.
-    2. displayFirst(data, dropdown, back, display1)
-       a. this performs basic DOM operations to hide the dropdown button, display the next button and to write the data into 
-          the widget's div tag.
+    2. displayFirst(data, display1)
+       a. Takes in data returned by load data and a DOM parameter - display1.
+       b. This performs basic DOM operations display the user list by writing the data into 
+          the page's div tag.
     3. fetchUser(i) 
-       a. This function fetches individual user data from the api and calls the displaySecond() function.
-    4. displaySecond() - 
+       a. Takes in the ID of the clicked user.
+       b. This function fetches individual user data from the api and calls the displaySecond() function.
+    4. displaySecond(data) - 
+       a. Takes in the data of the user returned by the fetchUser() function.
        a. This function displays the data fetched in the previous function.
     5. navigateBack() - 
        a. Performs dom operation to display the previous screen.
     6. reloadData() - 
        a. Clears local storage.
-       b. reloads the page.
-       c. this is to reflect any change in username, User ID or name of the user.
+       b. Reloads the page.
+       c. This is to reflect any change in username, User ID or name of the user.
+    7. getMiniSuggestions(keyword) - 
+       a. Takes in the keyword entered in the search box.
+       b. Calls searchDataForKeyword() for obtaining array of users that have a match with the keyword.
+       c. Displays the array of users as suggestions.
+    8. searchDataForKeyword(data, keyword).
+       a. Takes in user data and keyword from getMiniSuggestions().
+       b. Checks if the keyword is present in any of the information item of the user.
+       c. Returns all the matching users in an array of objects.
 -------------------------------------------------------------------------------------------------------------------------------------------------------
 
 */

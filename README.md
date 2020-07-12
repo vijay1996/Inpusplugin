@@ -11,18 +11,23 @@ This plugin is developed using the following technologies -
 - CSS
 - AJAX
 
-As its core logic, the plugin presents an endpoint which is the only means to access it. 
+As its core logic, the plugin presents a search box and a link below the the search box which are the only means to access it. 
 
- On, clicking this endpoint, a call is made to a REST api (https://jsonplaceholder.typicode.com/users) that responds with a user list in JSON format.
+Names, Usernames, Email IDs, Cities, Phone numbers etc can be entered into the search box. As the keyword is being typed in the search box, suggestions appear. On clicking the suggestion, the user which contains the keyword being entered will be displayed below.
 
- The plugin processes this response and displays the following user details -  
+ On, clicking the link below the searchbox, it will redirect to the plugin webpage that displays user id, name, username, email id and phone number of all users that are returned after making an AJAX call to a REST api (https://jsonplaceholder.typicode.com/users) that responds with a user list in JSON format.
+
+ The plugin processes this response and displays the following user details in a table format -  
 - User ID 
 - Name of the user  
-- username in a table format. 
+- username 
+- Email ID
+- Phone number
+
  
  Each user item listed in the table is clickable.  
 
- On clicking the user item, the plugin makes a call to the same REST api (https://jsonplaceholder.typicode.com/users/{user_id}), but this time it appends the user id at the end to fetch the detail of the individual user.
+ On clicking the user item, the plugin makes an AJAX call to the REST api (https://jsonplaceholder.typicode.com/users/{user_id}), but this time it appends the user id at the end to fetch the detail of the individual user.
 
 
  Once the request is made, the response of the REST api is then listed out in the table format.  
@@ -57,23 +62,32 @@ Now hover over the appearance tab and click on widgets. From the left column of 
 This will successfully install, activate and place the plugin into your website. Now you can visit your website to try out the plugin.
 
 ## Usage
-Now that you have activated the plugin, you can find find a button that looks as below -  
+Now that you have activated the plugin, you can find a widget that looks as below -  
 
-![plugin-endpoint](docs/PluginEndpoint.png)  
+![plugin-widget](docs/widget.png)  
 
-You can click the button to get a list of user. The list of users will be listed out in the following format -  
+As soon as you start typing in the search box, you can see suggestions to the keyword.
+
+![plugin-suggestions](docs/suggestions.png)
+
+You can click on a suggestion to display user details that contains the suggestion in any of the user information.
+
+![plugin-user-info](docs/miniUserInfo.png)
+
+You can click the link below the search button to redirect to a page with the list of users. The list of users will be listed out in the following format -  
 
 ![user-list](docs/UserList.png)
 
-Like mentioned in the description, The items listed in the above tables are clickable. User can click the back button to move to the previous display. User can also click the reload data link to reload the list data and also the page. On clicking any of the items in the above table another table will be displayed with the details of the selected user in a format shown below - 
+Like mentioned in the description, The items listed in the above tables are clickable. User can click the reload data button to reload the list data and also the page. On clicking any of the items in the above table another table will be displayed with the details of the selected user in a format shown below - 
 
 ![user-details](docs/UserDetails.png)
 
-The user again has the option to navigate to the previous display by pressing the back buton.
+The user has the option to navigate to the previous display by pressing the back buton.
 
 ## Caching
-The plugin uses local storage to cache list of users returned when the first "CLICK HERE TO GET A LIST OF USERS" button is pressed. The caching logic is applied here because, on pressing this button the details displayed are the user id, name of the user and the user name. These details hardly change as opposed to the user details that change quite often. So it is a good idea to cache these details.
-Even so, if required, an option to clear the local storage and reload the entire page is provided as "Reload Data link".
+The plugin uses local storage to cache list of users returned when the JSON placeholder API is called as soon as the window loads. The caching logic is applied here because, on pressing this button the details displayed are the user id, name of the user, username, email ID and phone number. These details hardly change as opposed to the user details that change quite often. So it is a good idea to cache these details.
+Moreover, caching the user list on window load is a good idea to provide suggestions while entering on the text box. But when the volume of the data returned by the api increases to a greater value, some other caching technique has to be thought of, as caching large volume of data in local storage may slow the browser down.
+Also, if required, an option to clear the local storage and reload the entire page is provided as "Reload Data link".
 
 ## Unit Testing
 
