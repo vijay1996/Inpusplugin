@@ -72,7 +72,7 @@ As soon as you start typing in the search box, you can see suggestions to the ke
 
 You can click on a suggestion to display user details that contains the suggestion in any of the user information.
 
-![plugin-user-info](docs/miniUserInfo.png)
+![plugin-user-info](docs/MiniUserInfo.png)
 
 You can click the link below the search button to redirect to a page with the list of users. The list of users will be listed out in the following format -  
 
